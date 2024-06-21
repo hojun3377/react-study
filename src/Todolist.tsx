@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import TodoModal from './TodoModal';
 
 type Todo = {
   id: number;
@@ -19,8 +20,8 @@ const TodoList: React.FC = () => {
     { id: 3, text: '미팅하기', isChecked: false },
   ]);
   const [newTodo, setNewTodo] = useState<string>('');
-  //   const [showDetail, setShowDetail] = useState<boolean>(false);
-  //   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+  const [showDetail, setShowDetail] = useState<boolean>(false);
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
   /**
    * handler
@@ -49,15 +50,15 @@ const TodoList: React.FC = () => {
   };
 
   // 할 일 상세 정보 모달 열기
-  //   const handleTodoClick = (todo: Todo) => {
-  //     setShowDetail(true);
-  //     setSelectedTodo(todo);
-  //   };
+  const handleTodoClick = (todo: Todo) => {
+    setShowDetail(true);
+    setSelectedTodo(todo);
+  };
 
   // 할 일 상세 정보 모달 닫기
-  //   const handleCloseDetail = () => {
-  //     setShowDetail(false);
-  //   };
+  const handleCloseDetail = () => {
+    setShowDetail(false);
+  };
 
   return (
     <div className="container">
@@ -84,8 +85,7 @@ const TodoList: React.FC = () => {
                   handleCheckedChange(todo.id);
                 }}
               />
-              {/* <span onClick={() => handleTodoClick(todo)}> */}
-              <span>
+              <span onClick={() => handleTodoClick(todo)}>
                 {todo.isChecked ? (
                   <del>{todo.text}</del>
                 ) : (
@@ -99,6 +99,11 @@ const TodoList: React.FC = () => {
           ))}
         </ul>
       </div>
+      <TodoModal
+        show={showDetail}
+        todo={selectedTodo}
+        handleClose={handleCloseDetail}
+      />
     </div>
   );
 };
